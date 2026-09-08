@@ -1,0 +1,12 @@
+[
+  {
+    "id": "AUD-720BC0E5",
+    "timestamp": "2026-09-03T11:12:11.220954",
+    "event_type": "SYSTEM_INIT",
+    "actor": "SystemCore",
+    "summary": "Initialized Governance Audit & Rollback Engine.",
+    "metadata": {},
+    "prev_hash": "00000000000000000000000000000000",
+    "hash": "8e8668aabeab8a29f515aa0d82cd876c56424f2419f9815eeabc1b00c133fcdd"
+  }
+]

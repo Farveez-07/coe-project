@@ -1,0 +1,68 @@
+{
+  "actual_exhaustion_day": 448,
+  "storage_limit_gb": 125.0,
+  "cutoff_evaluations": [
+    {
+      "cutoff_day_index": 240,
+      "cutoff_date": "2025-08-28",
+      "actual_exhaustion_day": 448,
+      "actual_dte_days": 209,
+      "baseline_pred_dte": 280,
+      "baseline_error_days": 71,
+      "proposed_pred_dte": 280,
+      "proposed_error_days": 71,
+      "error_reduction_pct": 0.0
+    },
+    {
+      "cutoff_day_index": 270,
+      "cutoff_date": "2025-09-27",
+      "actual_exhaustion_day": 448,
+      "actual_dte_days": 179,
+      "baseline_pred_dte": 280,
+      "baseline_error_days": 101,
+      "proposed_pred_dte": 280,
+      "proposed_error_days": 101,
+      "error_reduction_pct": 0.0
+    },
+    {
+      "cutoff_day_index": 300,
+      "cutoff_date": "2025-10-27",
+      "actual_exhaustion_day": 448,
+      "actual_dte_days": 149,
+      "baseline_pred_dte": 280,
+      "baseline_error_days": 131,
+      "proposed_pred_dte": 176,
+      "proposed_error_days": 27,
+      "error_reduction_pct": 79.39
+    },
+    {
+      "cutoff_day_index": 330,
+      "cutoff_date": "2025-11-26",
+      "actual_exhaustion_day": 448,
+      "actual_dte_days": 119,
+      "baseline_pred_dte": 280,
+      "baseline_error_days": 161,
+      "proposed_pred_dte": 152,
+      "proposed_error_days": 33,
+      "error_reduction_pct": 79.5
+    },
+    {
+      "cutoff_day_index": 365,
+      "cutoff_date": "2025-12-31",
+      "actual_exhaustion_day": 448,
+      "actual_dte_days": 84,
+      "baseline_pred_dte": 142,
+      "baseline_error_days": 58,
+      "proposed_pred_dte": 111,
+      "proposed_error_days": 27,
+      "error_reduction_pct": 53.45
+    }
+  ],
+  "summary": {
+    "baseline_dte_mae": 104.4,
+    "baseline_dte_rmse": 111.07,
+    "proposed_dte_mae": 51.8,
+    "proposed_dte_rmse": 59.65,
+    "overall_mae_improvement_pct": 50.38
+  }
+}
