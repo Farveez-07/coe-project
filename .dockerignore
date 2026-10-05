@@ -6,5 +6,12 @@ __pycache__/
 *.log
 dist/
 .env
+.git
+.gitignore
+*.md
+telemetry_dataset.json
+backtest_results.json
+experiment_results.json
 failure_mode_test_results.json
+audit_trail.json
 change_requests.json

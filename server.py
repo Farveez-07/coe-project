@@ -9,9 +9,13 @@ Exposes API endpoints for:
 - Rolling Backtest benchmark evaluations
 - Governance Audit Trail & Change Management workflow (Approve, Execute, Rollback)
 - What-If Scenario Simulation
+
+In production (Docker), also serves the Vite-built static frontend from ./static/.
 """
 
 import json
+import os
+import mimetypes
 import urllib.parse
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from data_generator import generate_telemetry_data
@@ -20,6 +24,7 @@ from governance_engine import GovernanceEngine
 
 DATASET = None
 GOVERNANCE = GovernanceEngine()
+STATIC_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static")
 
 def get_or_create_dataset():
     global DATASET
@@ -116,8 +121,46 @@ class CapacityForecasterRequestHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"change_requests": GOVERNANCE.change_requests}).encode("utf-8"))
 
         else:
-            self._set_headers(404)
-            self.wfile.write(json.dumps({"error": f"Endpoint '{path}' not found"}).encode("utf-8"))
+            # Serve static frontend files in production (Docker) mode
+            if os.path.isdir(STATIC_DIR):
+                # Map path to static file
+                file_path = path.lstrip("/")
+                if not file_path:
+                    file_path = "index.html"
+
+                full_path = os.path.join(STATIC_DIR, file_path)
+
+                # Security: prevent directory traversal
+                full_path = os.path.realpath(full_path)
+                if not full_path.startswith(os.path.realpath(STATIC_DIR)):
+                    self._set_headers(403)
+                    self.wfile.write(json.dumps({"error": "Forbidden"}).encode("utf-8"))
+                    return
+
+                if os.path.isfile(full_path):
+                    content_type, _ = mimetypes.guess_type(full_path)
+                    self.send_response(200)
+                    self.send_header("Content-Type", content_type or "application/octet-stream")
+                    self.send_header("Access-Control-Allow-Origin", "*")
+                    self.end_headers()
+                    with open(full_path, "rb") as f:
+                        self.wfile.write(f.read())
+                else:
+                    # SPA fallback: serve index.html for client-side routing
+                    index_path = os.path.join(STATIC_DIR, "index.html")
+                    if os.path.isfile(index_path):
+                        self.send_response(200)
+                        self.send_header("Content-Type", "text/html")
+                        self.send_header("Access-Control-Allow-Origin", "*")
+                        self.end_headers()
+                        with open(index_path, "rb") as f:
+                            self.wfile.write(f.read())
+                    else:
+                        self._set_headers(404)
+                        self.wfile.write(json.dumps({"error": "index.html not found in static build"}).encode("utf-8"))
+            else:
+                self._set_headers(404)
+                self.wfile.write(json.dumps({"error": f"Endpoint '{path}' not found"}).encode("utf-8"))
 
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)
